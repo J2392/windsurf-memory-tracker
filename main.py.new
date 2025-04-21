@@ -1,0 +1,1002 @@
+
+# ----- Tạo cửa sổ chính -----
+
+class MainWindow(QMainWindow):
+    """Cửa sổ chính của ứng dụng"""
+    
+    # --- Gắn các hàm AI helper vào MainWindow để dùng self.<func> ---
+    get_code_from_editor = get_code_from_editor
+    ai_analyze_code_quality = ai_analyze_code_quality
+    ai_find_code_issues = ai_find_code_issues
+    ai_generate_docstring = ai_generate_docstring
+    ai_suggest_refactor = ai_suggest_refactor
+    ai_semantic_analysis = ai_semantic_analysis
+    
+    def __init__(self):
+        super().__init__()
+        
+        # Thiết lập thuộc tính chính
+        self.api_client = None
+        self.current_project = None
+        self.current_file = None
+        self.current_task = None
+        self.snapshots = {}  # {file_path: [snapshot1, snapshot2, ...]}
+        self.tasks = {}  # {task_id: task_data}
+        self.settings = get_settings()
+        
+        # Thiết lập cửa sổ
+        self.setWindowTitle("WindSurf Memory Tracker")
+        self.resize(1200, 800)
+        
+        # Thiết lập style
+        self.apply_theme()
+        
+        # Tạo widget chính
+        self.central_widget = QWidget()
+        self.main_layout = QVBoxLayout(self.central_widget)
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
+        self.main_layout.setSpacing(0)
+        self.setCentralWidget(self.central_widget)
+        
+        # Tạo thanh công cụ
+        self.create_toolbar()
+        
+        # Tạo widgets và layout chính
+        self.create_main_layout()
+        
+        # Tạo thanh trạng thái
+        self.create_status_bar()
+        
+        # Khởi tạo API client (giả lập)
+        self.init_api_client()
+        
+        # Khởi tạo cơ sở dữ liệu
+        self.init_database()
+        
+        # Tạo dữ liệu demo
+        self.load_sample_data()
+        
+        # Thiết lập timer cập nhật
+        self.update_timer = QTimer(self)
+        self.update_timer.timeout.connect(self.update_ui)
+        self.update_timer.start(60000)  # Cập nhật mỗi phút
+heredoc> 
+heredoc> # ----- Tạo cửa sổ chính -----
+heredoc> 
+heredoc> class MainWindow(QMainWindow):
+heredoc>     """Cửa sổ chính của ứng dụng"""
+heredoc>     
+heredoc>     # --- Gắn các hàm AI helper vào MainWindow để dùng self.<func> ---
+heredoc>     get_code_from_editor = get_code_from_editor
+heredoc>     ai_analyze_code_quality = ai_analyze_code_quality
+heredoc>     ai_find_code_issues = ai_find_code_issues
+heredoc>     ai_generate_docstring = ai_generate_docstring
+heredoc>     ai_suggest_refactor = ai_suggest_refactor
+heredoc>     ai_semantic_analysis = ai_semantic_analysis
+heredoc>     
+heredoc>     def __init__(self):
+heredoc>         super().__init__()
+heredoc>         
+heredoc>         # Thiết lập thuộc tính chính
+heredoc>         self.api_client = None
+heredoc>         self.current_project = None
+heredoc>         self.current_file = None
+heredoc>         self.current_task = None
+heredoc>         self.snapshots = {}  # {file_path: [snapshot1, snapshot2, ...]}
+
+heredoc>         self.tasks = {}  # {task_id: task_data}
+heredoc>         self.settings = get_settings()
+heredoc>         
+heredoc>         # Thiết lập cửa sổ
+heredoc>         self.setWindowTitle("WindSurf Memory Tracker")
+heredoc>         self.resize(1200, 800)
+heredoc>         
+heredoc>         # Thiết lập style
+heredoc>         self.apply_theme()
+heredoc>         
+heredoc>         # Tạo widget chính
+heredoc>         self.central_widget = QWidget()
+heredoc>         self.main_layout = QVBoxLayout(self.central_widget)
+heredoc>         self.main_layout.setContentsMargins(0, 0, 0, 0)
+heredoc>         self.main_layout.setSpacing(0)
+heredoc>         self.setCentralWidget(self.central_widget)
+heredoc>         
+heredoc>         # Tạo thanh công cụ
+heredoc>         self.create_toolbar()
+heredoc>         
+heredoc>         # Tạo widgets và layout chính
+heredoc>         self.create_main_layout()
+heredoc>         
+heredoc>         # Tạo thanh trạng thái
+heredoc>         self.create_status_bar()
+heredoc>         
+heredoc>         # Khởi tạo API client (giả lập)
+heredoc>         self.init_api_client()
+heredoc>         
+heredoc>         # Khởi tạo cơ sở dữ liệu
+heredoc>         self.init_database()
+heredoc>         
+heredoc>         # Tạo dữ liệu demo
+heredoc>         self.load_sample_data()
+heredoc>         
+heredoc>         # Thiết lập timer cập nhật
+heredoc>         self.update_timer = QTimer(self)
+heredoc>         self.update_timer.timeout.connect(self.update_ui)
+heredoc>         self.update_timer.start(60000)  # Cập nhật mỗi phút
+heredoc> EOF
+
+cat >> main.py.new << 'EOF'
+
+# ----- Tạo cửa sổ chính -----
+
+class MainWindow(QMainWindow):
+    """Cửa sổ chính của ứng dụng"""
+    
+    # --- Gắn các hàm AI helper vào MainWindow để dùng self.<func> ---
+    get_code_from_editor = get_code_from_editor
+    ai_analyze_code_quality = ai_analyze_code_quality
+    ai_find_code_issues = ai_find_code_issues
+    ai_generate_docstring = ai_generate_docstring
+    ai_suggest_refactor = ai_suggest_refactor
+    ai_semantic_analysis = ai_semantic_analysis
+    
+    def __init__(self):
+        super().__init__()
+        
+        # Thiết lập thuộc tính chính
+        self.api_client = None
+        self.current_project = None
+        self.current_file = None
+        self.current_task = None
+        self.snapshots = {}  # {file_path: [snapshot1, snapshot2, ...]}
+        self.tasks = {}  # {task_id: task_data}
+        self.settings = get_settings()
+        
+        # Thiết lập cửa sổ
+        self.setWindowTitle("WindSurf Memory Tracker")
+        self.resize(1200, 800)
+        
+        # Thiết lập style
+        self.apply_theme()
+        
+        # Tạo widget chính
+        self.central_widget = QWidget()
+        self.main_layout = QVBoxLayout(self.central_widget)
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
+        self.main_layout.setSpacing(0)
+        self.setCentralWidget(self.central_widget)
+        
+        # Tạo thanh công cụ
+        self.create_toolbar()
+        
+        # Tạo widgets và layout chính
+        self.create_main_layout()
+        
+        # Tạo thanh trạng thái
+        self.create_status_bar()
+        
+        # Khởi tạo API client (giả lập)
+        self.init_api_client()
+        
+        # Khởi tạo cơ sở dữ liệu
+        self.init_database()
+        
+        # Tạo dữ liệu demo
+        self.load_sample_data()
+        
+        # Thiết lập timer cập nhật
+        self.update_timer = QTimer(self)
+        self.update_timer.timeout.connect(self.update_ui)
+        self.update_timer.start(60000)  # Cập nhật mỗi phút
+
+    def apply_theme(self):
+        """Áp dụng theme cho ứng dụng"""
+        self.setStyleSheet("""
+            QMainWindow {
+                background-color: #000000;
+            }
+            QWidget {
+                color: #ffffff;
+                font-family: Arial, sans-serif;
+            }
+            QPushButton {
+                background-color: #121218;
+                border: none;
+                border-radius: 5px;
+                padding: 5px 10px;
+                color: #ffffff;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #1f1f2e;
+            }
+            QPushButton:pressed {
+                background-color: #00ff00;
+                color: #000000;
+            }
+            QLineEdit {
+                background-color: #1c1c27;
+                border: 1px solid #2d2d3d;
+                border-radius: 15px;
+                padding: 5px 10px;
+                color: #ffffff;
+            }
+            QTextEdit {
+                background-color: #000000;
+                border: none;
+                color: #abb2bf;
+                font-family: Consolas, monospace;
+                selection-background-color: #2c3e50;
+                selection-color: #ffffff;
+            }
+            QSplitter::handle {
+                background-color: #000000;
+            }
+            QTabBar::tab {
+                background-color: #121218;
+                color: #6b6b8d;
+                padding: 5px 10px;
+                margin-right: 2px;
+                border: none;
+            }
+            QTabBar::tab:selected {
+                background-color: #00ff00;
+                color: #000000;
+                font-weight: bold;
+            }
+            QTabWidget::pane {
+                border: none;
+            }
+            QDialog {
+                background-color: #0f0f17;
+            }
+            QLabel {
+                color: #ffffff;
+            }
+            QComboBox {
+                background-color: #1c1c27;
+                border: 1px solid #2d2d3d;
+                border-radius: 5px;
+                padding: 5px;
+                color: #ffffff;
+            }
+            QComboBox::drop-down {
+                border: none;
+            }
+            QComboBox::down-arrow {
+                image: none;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 5px solid #ffffff;
+                width: 0;
+                height: 0;
+                margin-right: 5px;
+            }
+            QComboBox QAbstractItemView {
+                background-color: #1c1c27;
+                border: 1px solid #2d2d3d;
+                selection-background-color: #2a2a3a;
+                selection-color: #ffffff;
+            }
+            QDateTimeEdit {
+                background-color: #1c1c27;
+                border: 1px solid #2d2d3d;
+                border-radius: 5px;
+                padding: 5px;
+                color: #ffffff;
+            }
+        """)
+    
+    def create_toolbar(self):
+        """Tạo thanh công cụ chính"""
+        toolbar = QToolBar()
+        toolbar.setStyleSheet("""
+            QToolBar {
+                background-color: #000000;
+                border: none;
+                spacing: 10px;
+            }
+            QToolButton {
+                background-color: transparent;
+                border: none;
+                color: #ffffff;
+                font-weight: bold;
+                font-size: 16px;
+                padding: 5px 10px;
+            }
+            QToolButton:hover {
+                background-color: #1c1c27;
+                border-radius: 5px;
+            }
+        """)
+        toolbar.setMovable(False)
+        toolbar.setIconSize(QSize(16, 16))
+        toolbar.setFixedHeight(60)
+        
+        # Logo
+        logo_label = QLabel()
+        logo_label.setFixedSize(36, 36)
+        logo_label.setStyleSheet("""
+            QLabel {
+                background-color: #00ff00;
+                border-radius: 4px;
+                color: #000000;
+                font-weight: bold;
+                font-size: 18px;
+                text-align: center;
+            }
+        """)
+        logo_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        logo_label.setText("</>");
+        
+        # Tên ứng dụng
+        app_name = QLabel("WindSurf_Memory")
+        app_name.setStyleSheet("color: #00ff00; font-weight: bold; font-size: 20px;")
+        
+        # Các nút menu
+        projects_btn = QPushButton("Projects")
+        projects_btn.setStyleSheet("""
+            QPushButton {
+                background-color: transparent;
+                border: none;
+                color: #ffffff;
+                font-weight: bold;
+                font-size: 16px;
+            }
+            QPushButton:hover {
+                color: #00ff00;
+            }
+        """)
+        projects_btn.clicked.connect(self.show_projects)
+        
+        tasks_btn = QPushButton("Tasks")
+        tasks_btn.setStyleSheet("""
+            QPushButton {
+                background-color: transparent;
+                border: none;
+                color: #ffffff;
+                font-weight: bold;
+                font-size: 16px;
+            }
+            QPushButton:hover {
+                color: #00ff00;
+            }
+        """)
+        tasks_btn.clicked.connect(self.show_tasks)
+        
+        analytics_btn = QPushButton("Analytics")
+        analytics_btn.setStyleSheet("""
+            QPushButton {
+                background-color: transparent;
+                border: none;
+                color: #ffffff;
+                font-weight: bold;
+                font-size: 16px;
+            }
+            QPushButton:hover {
+                color: #00ff00;
+            }
+        """)
+        analytics_btn.clicked.connect(self.show_analytics)
+        
+        terminal_btn = QPushButton("Terminal")
+        terminal_btn.setStyleSheet("""
+            QPushButton {
+                background-color: transparent;
+                border: none;
+                color: #ffffff;
+                font-weight: bold;
+                font-size: 16px;
+            }
+            QPushButton:hover {
+                color: #00ff00;
+            }
+        """)
+        terminal_btn.clicked.connect(self.show_terminal)
+        
+        # --- Thêm các nút AI vào toolbar ---
+        add_ai_buttons_to_toolbar(self, toolbar)
+        
+        # Spacer
+        spacer1 = QWidget()
+        spacer1.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Expanding)
+        spacer1.setFixedWidth(50)
+        
+        spacer2 = QWidget()
+        spacer2.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        
+        # Thanh tìm kiếm
+        search_box = QLineEdit()
+        search_box.setPlaceholderText("Search...")
+        search_box.setFixedWidth(200)
+        search_box.setFixedHeight(30)
+        search_box.returnPressed.connect(self.search)
+        
+        # Biểu tượng người dùng
+        user_icon = QLabel()
+        user_icon.setFixedSize(40, 40)
+        user_icon.setStyleSheet("""
+            QLabel {
+                background-color: #00ff00;
+                border-radius: 20px;
+            }
+        """)
+        
+        # Thêm widgets vào toolbar
+        toolbar.addWidget(logo_label)
+        toolbar.addWidget(app_name)
+        toolbar.addWidget(spacer1)
+        toolbar.addWidget(projects_btn)
+        toolbar.addWidget(tasks_btn)
+        toolbar.addWidget(analytics_btn)
+        toolbar.addWidget(terminal_btn)
+        toolbar.addWidget(spacer2)
+        toolbar.addWidget(search_box)
+        toolbar.addWidget(user_icon)
+        
+        self.addToolBar(toolbar)
+
+    def create_main_layout(self):
+        """Tạo layout chính cho ứng dụng"""
+        content_widget = QWidget()
+        content_layout = QHBoxLayout(content_widget)
+        content_layout.setContentsMargins(10, 10, 10, 10)
+        
+        # Tạo splitter chính giữa nội dung và sidebar
+        main_splitter = QSplitter(Qt.Orientation.Horizontal)
+        
+        # Tạo vùng nội dung chính bên trái
+        left_widget = QWidget()
+        left_layout = QVBoxLayout(left_widget)
+        left_layout.setContentsMargins(0, 0, 0, 0)
+        left_layout.setSpacing(20)
+        
+        # Tạo editor area
+        editor_area = QWidget()
+        editor_area_layout = QVBoxLayout(editor_area)
+        editor_area_layout.setContentsMargins(0, 0, 0, 0)
+        editor_area_layout.setSpacing(0)
+        
+        # Tab widget cho editor
+        self.editor_tab = QTabWidget()
+        self.editor_tab.setStyleSheet("""
+            QTabWidget::pane {
+                background-color: #000000;
+                border: none;
+            }
+            QTabBar::tab {
+                background-color: #121218;
+                color: #6b6b8d;
+                padding: 5px 10px;
+                margin-right: 2px;
+                border: none;
+            }
+            QTabBar::tab:selected {
+                background-color: #00ff00;
+                color: #000000;
+                font-weight: bold;
+            }
+        """)
+        
+        # Tạo code editor
+        self.code_editor = QTextEdit()
+        self.code_editor.setPlainText("""class MemoryTracker:
+    def __init__(self, editor, options):
+        self.editor = editor
+        self.options = options
+        self.history = []
+    
+    def track_changes(self):
+        snapshot = self.editor.get_content()
+        self.analyze_changes(snapshot)
+        self.history.push({
+            "timestamp": Date.now(),
+            "content": snapshot
+        })
+""")
+        self.code_editor.setStyleSheet("""
+            QTextEdit {
+                background-color: #000000;
+                color: #ffffff;
+                border: none;
+                font-family: Consolas, monospace;
+                font-size: 12px;
+                padding: 10px;
+            }
+        """)
+        
+        # Đăng ký phím tắt AI cho code editor
+        add_ai_shortcuts_to_editor(self)
+        
+        # Áp dụng syntax highlighting
+        self.highlighter = CodeHighlighter(self.code_editor.document())
+        
+        # Tạo các editor tab
+        self.editor_tab.addTab(self.code_editor, "MemoryTracker.js")
+        
+        # Tạo tab trống cho các file khác
+        empty_widget1 = QWidget()
+        empty_widget2 = QWidget()
+        self.editor_tab.addTab(empty_widget1, "KanbanBoard.js")
+        self.editor_tab.addTab(empty_widget2, "AIAnalyzer.js")
+        
+        # Thêm tab vào editor area
+        editor_area_layout.addWidget(self.editor_tab)
+        
+        # Tạo tiêu đề cho bảng Kanban
+        kanban_label = QLabel("TASK KANBAN")
+        kanban_label.setStyleSheet("""
+            QLabel {
+                background-color: #000000;
+                color: #00ff00;
+                font-weight: bold;
+                font-size: 14px;
+                padding: 10px 0;
+            }
+        """)
+        
+        # Tạo bảng Kanban
+        kanban_widget = QWidget()
+        kanban_layout = QHBoxLayout(kanban_widget)
+        kanban_layout.setSpacing(15)
+        kanban_layout.setContentsMargins(0, 0, 0, 0)
+        
+        # Tạo các cột Kanban
+        self.todo_column = KanbanColumn("TO DO", "todo")
+        self.in_progress_column = KanbanColumn("IN PROGRESS", "in_progress")
+        self.done_column = KanbanColumn("DONE", "done")
+        
+        # Kết nối tín hiệu
+        self.todo_column.taskMoved.connect(self.move_task)
+        self.in_progress_column.taskMoved.connect(self.move_task)
+        self.done_column.taskMoved.connect(self.move_task)
+        
+        # Thêm cột vào layout Kanban
+        kanban_layout.addWidget(self.todo_column)
+        kanban_layout.addWidget(self.in_progress_column)
+        kanban_layout.addWidget(self.done_column)
+        
+        # Thêm editor và Kanban vào layout trái
+        left_layout.addWidget(editor_area, 1)
+        left_layout.addWidget(kanban_label)
+        left_layout.addWidget(kanban_widget, 1)
+        
+        # Tạo sidebar phải
+        right_widget = QWidget()
+        right_widget.setMaximumWidth(310)
+        right_widget.setStyleSheet("background-color: #000000;")
+        right_layout = QVBoxLayout(right_widget)
+        right_layout.setContentsMargins(10, 10, 10, 10)
+        right_layout.setSpacing(20)
+        
+        # Ngày
+        self.date_label = QLabel(datetime.datetime.now().strftime("%A, %B %d, %Y"))
+        self.date_label.setStyleSheet("color: #6b6b8d; font-size: 14px; text-align: right;")
+        self.date_label.setAlignment(Qt.AlignmentFlag.AlignRight)
+        
+        # Tiêu đề Memory Stats
+        stats_header = QLabel("MEMORY STATS")
+        stats_header.setStyleSheet("color: #00ff00; font-weight: bold; font-size: 18px;")
+        
+        # Widget tổng số thay đổi
+        total_changes = QFrame()
+        total_changes.setStyleSheet("""
+            QFrame {
+                background-color: #15151f;
+                border-radius: 5px;
+            }
+        """)
+        total_changes_layout = QVBoxLayout(total_changes)
+        
+        changes_title = QLabel("Total Changes Tracked")
+        changes_title.setStyleSheet("color: #ffffff; font-size: 14px;")
+        
+        self.changes_value = QLabel("5,421")
+        self.changes_value.setStyleSheet("color: #00ff00; font-weight: bold; font-size: 30px;")
+        
+        total_changes_layout.addWidget(changes_title)
+        total_changes_layout.addWidget(self.changes_value)
+        
+        # Biểu đồ hoạt động
+        activity_title = QLabel("Activity Last 7 Days")
+        activity_title.setStyleSheet("color: #ffffff; font-size: 14px;")
+        
+        activity_graph = QFrame()
+        activity_graph.setStyleSheet("""
+            QFrame {
+                background-color: #15151f;
+                border-radius: 5px;
+                padding: 10px;
+            }
+        """)
+        activity_graph.setMinimumHeight(100)
+        
+        graph_placeholder = QLabel("[ Activity Graph Placeholder ]")
+        graph_placeholder.setStyleSheet("color: #00ff00; font-size: 14px;")
+        graph_placeholder.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        activity_layout = QVBoxLayout(activity_graph)
+        activity_layout.addWidget(graph_placeholder)
+        
+        # Tiêu đề AI Insights
+        ai_header = QLabel("AI INSIGHTS")
+        ai_header.setStyleSheet("color: #00ff00; font-weight: bold; font-size: 18px;")
+        
+        # Tiêu đề sức khỏe code
+        code_health_title = QLabel("Code Health")
+        code_health_title.setStyleSheet("color: #00ff00; font-weight: bold; font-size: 14px;")
+        
+        # Widget sức khỏe code
+        code_health_widget = QFrame()
+        code_health_widget.setStyleSheet("""
+            QFrame {
+                background-color: #15151f;
+                border-radius: 5px;
+                padding: 10px;
+            }
+        """)
+        
+        # Thanh sức khỏe
+        health_bar = QFrame()
+        health_bar.setFixedHeight(5)
+        health_bar.setFixedWidth(184)  # 80% of 230
+        health_bar.setStyleSheet("background-color: #00ff00; border-radius: 2px;")
+        
+        health_value = QLabel("80% - Good")
+        health_value.setStyleSheet("color: #ffffff; font-size: 12px;")
+        
+        health_details = QLabel("Identified 2 potential refactorings")
+        health_details.setStyleSheet("color: #6b6b8d; font-size: 10px;")
+        
+        code_health_layout = QVBoxLayout(code_health_widget)
+        code_health_layout.addWidget(health_bar)
+        code_health_layout.addWidget(health_value)
+        code_health_layout.addWidget(health_details)
+        
+        # Tiêu đề hoạt động gần đây
+        recent_activity_title = QLabel("Recent Activity")
+        recent_activity_title.setStyleSheet("color: #00ff00; font-weight: bold; font-size: 14px;")
+        
+        # Widget hoạt động gần đây
+        recent_activity_widget = QFrame()
+        recent_activity_widget.setStyleSheet("""
+            QFrame {
+                background-color: #15151f;
+                border-radius: 5px;
+                padding: 10px;
+            }
+        """)
+        
+        # Tạo layout cho hoạt động gần đây
+        recent_activity_layout = QVBoxLayout(recent_activity_widget)
+        
+        # Thêm các mục hoạt động
+        self.activity_items = []
+        
+        activity1 = QLabel("• Modified MemoryTracker.js")
+        activity1.setStyleSheet("color: #ffffff; font-size: 12px;")
+        
+        time1 = QLabel("5 minutes ago")
+        time1.setStyleSheet("color: #6b6b8d; font-size: 10px;")
+        
+        activity2 = QLabel("• Created KanbanBoard.js")
+        activity2.setStyleSheet("color: #ffffff; font-size: 12px;")
+        
+        time2 = QLabel("47 minutes ago")
+        time2.setStyleSheet("color: #6b6b8d; font-size: 10px;")
+        
+        activity3 = QLabel("• Completed Task-101")
+        activity3.setStyleSheet("color: #ffffff; font-size: 12px;")
+        
+        time3 = QLabel("2 hours ago")
+        time3.setStyleSheet("color: #6b6b8d; font-size: 10px;")
+        
+        # Thêm hoạt động vào layout
+        recent_activity_layout.addWidget(activity1)
+        recent_activity_layout.addWidget(time1)
+        recent_activity_layout.addSpacing(10)
+        recent_activity_layout.addWidget(activity2)
+        recent_activity_layout.addWidget(time2)
+        recent_activity_layout.addSpacing(10)
+        recent_activity_layout.addWidget(activity3)
+        recent_activity_layout.addWidget(time3)
+        
+        # Lưu các mục hoạt động để cập nhật sau
+        self.activity_items = [
+            (activity1, time1),
+            (activity2, time2),
+            (activity3, time3)
+        ]
+        
+        # Thêm widgets vào sidebar
+        right_layout.addWidget(self.date_label)
+        right_layout.addWidget(stats_header)
+        right_layout.addWidget(total_changes)
+        right_layout.addWidget(activity_title)
+        right_layout.addWidget(activity_graph)
+        right_layout.addWidget(ai_header)
+        right_layout.addWidget(code_health_title)
+        right_layout.addWidget(code_health_widget)
+        right_layout.addWidget(recent_activity_title)
+        right_layout.addWidget(recent_activity_widget)
+        right_layout.addStretch()
+        
+        # Thêm widgets vào splitter
+        main_splitter.addWidget(left_widget)
+        main_splitter.addWidget(right_widget)
+        
+        # Thiết lập tỷ lệ kéo
+        main_splitter.setStretchFactor(0, 7)
+        main_splitter.setStretchFactor(1, 3)
+        
+        # Thêm splitter vào content
+        content_layout.addWidget(main_splitter)
+        
+        # Thêm content vào layout chính
+        self.main_layout.addWidget(content_widget)
+    
+    def create_status_bar(self):
+        """Tạo thanh trạng thái"""
+        status_bar = QStatusBar()
+        status_bar.setStyleSheet("""
+            QStatusBar {
+                background-color: #000000;
+                color: #6b6b8d;
+            }
+        """)
+        
+        # Thêm thông tin vào status bar
+        status_bar.addPermanentWidget(QLabel("WindSurf Memory Tracker v1.0.0"))
+        
+        self.setStatusBar(status_bar)
+    
+    def init_api_client(self):
+        """Khởi tạo API client"""
+        self.api_client = APIClient()
+        
+        # Đăng nhập (giả lập)
+        self.api_client.login("user@example.com", "password")
+    
+    def init_database(self):
+        """Khởi tạo cơ sở dữ liệu"""
+        # Trong phiên bản này, chúng ta sẽ giả lập bằng cách sử dụng dictionary
+        pass
+    
+    def load_sample_data(self):
+        """Tải dữ liệu mẫu"""
+        # Tạo các task mẫu
+        self.tasks = {
+            "TASK-101": {
+                "id": "TASK-101",
+                "title": "Implement memory tracking",
+                "description": "Create core functionality for tracking code changes",
+                "status": "done",
+                "priority": "High",
+                "due_date": datetime.datetime.now().strftime(Qt.DateFormat.ISODate)
+            },
+            "TASK-102": {
+                "id": "TASK-102",
+                "title": "Design Kanban board",
+                "description": "Create UI for task management using Kanban approach",
+                "status": "in_progress",
+                "priority": "Medium",
+                "due_date": datetime.datetime.now().strftime(Qt.DateFormat.ISODate)
+            },
+            "TASK-103": {
+                "id": "TASK-103",
+                "title": "Integrate AI analysis",
+                "description": "Add AI-powered code analysis features",
+                "status": "todo",
+                "priority": "High",
+                "due_date": datetime.datetime.now().strftime(Qt.DateFormat.ISODate)
+            },
+            "TASK-104": {
+                "id": "TASK-104",
+                "title": "Create snapshot system",
+                "description": "Implement code snapshot and version comparison",
+                "status": "todo",
+                "priority": "Medium",
+                "due_date": datetime.datetime.now().strftime(Qt.DateFormat.ISODate)
+            }
+        }
+        
+        # Thêm task vào bảng Kanban
+        for task_id, task_data in self.tasks.items():
+            if task_data["status"] == "todo":
+                self.todo_column.add_task(task_id, task_data["title"], task_data["priority"])
+            elif task_data["status"] == "in_progress":
+                self.in_progress_column.add_task(task_id, task_data["title"], task_data["priority"])
+            elif task_data["status"] == "done":
+                self.done_column.add_task(task_id, task_data["title"], task_data["priority"])
+    
+    def update_ui(self):
+        """Cập nhật giao diện người dùng"""
+        # Cập nhật ngày
+        self.date_label.setText(datetime.datetime.now().strftime("%A, %B %d, %Y"))
+    
+    def show_projects(self):
+        """Hiển thị màn hình quản lý dự án"""
+        QMessageBox.information(self, "Projects", "Projects screen not implemented yet")
+    
+    def show_tasks(self):
+        """Hiển thị màn hình quản lý công việc"""
+        QMessageBox.information(self, "Tasks", "Tasks screen not implemented yet")
+    
+    def show_analytics(self):
+        """Hiển thị màn hình phân tích"""
+        QMessageBox.information(self, "Analytics", "Analytics screen not implemented yet")
+    
+    def show_terminal(self):
+        """Hiển thị terminal"""
+        QMessageBox.information(self, "Terminal", "Terminal screen not implemented yet")
+    
+    def search(self):
+        """Xử lý tìm kiếm"""
+        search_text = self.sender().text()
+        if search_text:
+            QMessageBox.information(self, "Search", f"Searching for: {search_text}")
+            self.sender().clear()
+    
+    def add_recent_activity(self, activity_text, time_text=None):
+        """Thêm hoạt động gần đây vào sidebar"""
+        try:
+            # Nếu không cung cấp thời gian, sử dụng "just now"
+            if time_text is None:
+                time_text = "just now"
+            
+            # Tạo widget mới
+            activity = QLabel(f"• {activity_text}")
+            activity.setStyleSheet("color: #ffffff; font-size: 12px;")
+            
+            time = QLabel(time_text)
+            time.setStyleSheet("color: #6b6b8d; font-size: 10px;")
+            
+            # Thêm vào đầu danh sách
+            self.activity_items.insert(0, (activity, time))
+            
+            # Giới hạn số lượng hoạt động hiển thị
+            if len(self.activity_items) > 5:
+                # Xóa mục cuối cùng
+                old_activity, old_time = self.activity_items.pop()
+                old_activity.setParent(None)
+                old_time.setParent(None)
+            
+            # Cập nhật giao diện
+            recent_activity_widget = self.findChild(QFrame, "recent_activity_widget")
+            if recent_activity_widget:
+                # Xóa tất cả widget hiện tại
+                layout = recent_activity_widget.layout()
+                while layout.count():
+                    item = layout.takeAt(0)
+                    if item.widget():
+                        item.widget().setParent(None)
+                
+                # Thêm lại các mục hoạt động
+                for i, (act, tim) in enumerate(self.activity_items):
+                    layout.addWidget(act)
+                    layout.addWidget(tim)
+                    if i < len(self.activity_items) - 1:
+                        layout.addSpacing(10)
+            
+            logger.info(f"Đã thêm hoạt động mới: {activity_text}")
+        except Exception as e:
+            logger.error(f"Lỗi khi thêm hoạt động: {str(e)}")
+    
+    def move_task(self, task_id, new_status):
+        """Di chuyển task sang trạng thái mới"""
+        try:
+            logger.info(f"Di chuyển task {task_id} sang trạng thái {new_status}")
+            
+            # Kiểm tra xem task có tồn tại không
+            if task_id not in self.tasks:
+                logger.error(f"Task {task_id} không tồn tại")
+                return
+            
+            # Lấy thông tin task
+            task_data = self.tasks[task_id]
+            old_status = task_data["status"]
+            
+            # Kiểm tra xem trạng thái mới có khác trạng thái cũ không
+            if old_status == new_status:
+                logger.info(f"Task {task_id} đã ở trạng thái {new_status}")
+                return
+            
+            # Cập nhật trạng thái task
+            task_data["status"] = new_status
+            self.tasks[task_id] = task_data
+            
+            # Xóa task khỏi cột cũ
+            if old_status == "todo":
+                self.todo_column.remove_task(task_id)
+            elif old_status == "in_progress":
+                self.in_progress_column.remove_task(task_id)
+            elif old_status == "done":
+                self.done_column.remove_task(task_id)
+            
+            # Thêm task vào cột mới
+            if new_status == "todo":
+                self.todo_column.add_task(task_id, task_data["title"], task_data["priority"])
+            elif new_status == "in_progress":
+                self.in_progress_column.add_task(task_id, task_data["title"], task_data["priority"])
+            elif new_status == "done":
+                self.done_column.add_task(task_id, task_data["title"], task_data["priority"])
+            
+            # Thêm hoạt động gần đây
+            self.add_recent_activity(f"Moved {task_id} to {new_status.replace('_', ' ').title()}")
+            
+            logger.info(f"Đã di chuyển task {task_id} từ {old_status} sang {new_status}")
+        except Exception as e:
+            logger.error(f"Lỗi khi di chuyển task: {str(e)}")
+            traceback.print_exc()
+    
+    def on_task_selected(self, task_id):
+        """Xử lý khi task được chọn"""
+        if task_id in self.tasks:
+            self.current_task = self.tasks[task_id]
+            QMessageBox.information(self, "Task Selected", f"Selected task: {task_id}")
+    
+    def on_task_edit_requested(self, task_id):
+        """Xử lý khi yêu cầu chỉnh sửa task"""
+        if task_id in self.tasks:
+            task_data = self.tasks[task_id]
+            
+            dialog = TaskDialog(self, task_data)
+            
+            if dialog.exec() == QDialog.DialogCode.Accepted:
+                # Cập nhật task
+                updated_data = dialog.get_task_data()
+                old_status = task_data["status"]
+                new_status = updated_data["status"]
+                
+                # Cập nhật dữ liệu task
+                self.tasks[task_id] = updated_data
+                
+                # Nếu trạng thái thay đổi, di chuyển task
+                if old_status != new_status:
+                    self.move_task(task_id, new_status)
+                else:
+                    # Cập nhật giao diện
+                    # Xóa task khỏi cột cũ
+                    if old_status == "todo":
+                        self.todo_column.remove_task(task_id)
+                    elif old_status == "in_progress":
+                        self.in_progress_column.remove_task(task_id)
+                    elif old_status == "done":
+                        self.done_column.remove_task(task_id)
+                    
+                    # Thêm task vào cột với dữ liệu mới
+                    if new_status == "todo":
+                        self.todo_column.add_task(task_id, updated_data["title"], updated_data["priority"])
+                    elif new_status == "in_progress":
+                        self.in_progress_column.add_task(task_id, updated_data["title"], updated_data["priority"])
+                    elif new_status == "done":
+                        self.done_column.add_task(task_id, updated_data["title"], updated_data["priority"])
+                
+                # Thêm hoạt động gần đây
+                self.add_recent_activity(f"Updated {task_id}")
+
+# ----- Hàm main -----
+
+def main():
+    """Hàm chính để khởi động ứng dụng"""
+    app = QApplication(sys.argv)
+    
+    # Thiết lập logging
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler("app.log"),
+            logging.StreamHandler()
+        ]
+    )
+    
+    # Khởi tạo cửa sổ chính
+    main_window = MainWindow()
+    main_window.show()
+    
+    # Chạy ứng dụng
+    sys.exit(app.exec())
+
+if __name__ == "__main__":
+    main()

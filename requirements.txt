@@ -1,0 +1,35 @@
+# ===== Giao diện người dùng =====
+PyQt6>=6.4.0        # Framework GUI chính
+pyqtgraph>=0.13.3   # Vẽ biểu đồ và đồ thị (nếu cần)
+
+# ===== Cơ sở dữ liệu =====
+peewee>=3.15.0      # ORM nhẹ cho SQLite
+
+# ===== Theo dõi thay đổi file =====
+watchdog>=2.1.9     # Theo dõi thay đổi file trong hệ thống
+
+# ===== HTTP và API =====
+requests>=2.28.0    # Thực hiện HTTP requests
+requests-cache>=1.0.0  # Cache requests để tối ưu hiệu suất
+
+# ===== Xử lý dữ liệu =====
+python-dateutil>=2.8.2  # Xử lý ngày tháng nâng cao
+# difflib là thư viện chuẩn của Python, không cần cài đặt thêm
+json5>=0.9.10       # Xử lý JSON linh hoạt hơn
+
+# ===== Trí tuệ nhân tạo =====
+openai>=1.1.0       # Tích hợp với OpenAI API (tùy chọn)
+tiktoken>=0.5.0     # Đếm token cho OpenAI API (tùy chọn)
+
+# ===== Testing =====
+pytest>=7.0.0       # Framework testing chính
+pytest-qt>=4.2.0    # Testing cho ứng dụng PyQt
+pytest-cov>=4.1.0   # Đo độ phủ code
+
+# ===== Logging và Monitoring =====
+colorlog>=6.7.0     # Logging có màu sắc
+tqdm>=4.64.0        # Thanh tiến trình
+
+# ===== Utilities =====
+pydantic>=2.0.0     # Kiểm tra dữ liệu và serialization
+typing-extensions>=4.5.0  # Mở rộng cho type hints
